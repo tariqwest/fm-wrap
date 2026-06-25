@@ -124,10 +124,10 @@ describe('respond (buffered)', () => {
 
   it('passes options to spawn args', async () => {
     mockSpawn.mockReturnValue(createMockProcess('Response'));
-    await respond('Hello', { model: 'pcc', instructions: 'Be brief' });
+    await respond('Hello', { model: 'system', instructions: 'Be brief' });
     const spawnArgs = mockSpawn.mock.calls[0][1];
     expect(spawnArgs).toContain('--model');
-    expect(spawnArgs).toContain('pcc');
+    expect(spawnArgs).toContain('system');
     expect(spawnArgs).toContain('--instructions');
     expect(spawnArgs).toContain('Be brief');
   });

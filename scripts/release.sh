@@ -86,10 +86,12 @@ git tag "${TAG}"
 
 # --- Pack & publish ---
 
+TMP_DIR="$(mktemp -d)"
+trap 'rm -rf "$TMP_DIR"' EXIT
+
 echo "Packing tarball..."
-rm -f fm-wrap-*.tgz
-npm pack
-TARBALL="fm-wrap-${VERSION}.tgz"
+npm pack --pack-destination "$TMP_DIR"
+TARBALL="${TMP_DIR}/fm-wrap-${VERSION}.tgz"
 if [[ ! -f "$TARBALL" ]]; then
   echo "Error: expected tarball ${TARBALL} not found" >&2
   exit 1
@@ -120,9 +122,7 @@ fi
 
 RELEASE_URL="$(gh release view "${TAG}" --json url --jq .url)"
 
-# --- Cleanup ---
-
-rm -f fm-wrap-*.tgz
+# --- Cleanup (tmp dir removed by trap) ---
 
 echo ""
 echo "Release complete:"
