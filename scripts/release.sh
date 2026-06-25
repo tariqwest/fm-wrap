@@ -5,11 +5,21 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
 
-VERSION_TYPE="${1:-patch}"
-if [[ ! "$VERSION_TYPE" =~ ^(patch|minor|major)$ ]]; then
-  echo "Usage: $0 [patch|minor|major]" >&2
-  exit 1
-fi
+# --- Parse args ---
+
+SKIP_NPM=false
+VERSION_TYPE="patch"
+
+for arg in "$@"; do
+  case "$arg" in
+    --skip-npm) SKIP_NPM=true ;;
+    patch|minor|major) VERSION_TYPE="$arg" ;;
+    *)
+      echo "Usage: $0 [patch|minor|major] [--skip-npm]" >&2
+      exit 1
+      ;;
+  esac
+done
 
 # --- Preflight checks ---
 
@@ -52,7 +62,11 @@ npm pack --dry-run
 
 # --- Confirm ---
 
-read -r -p "Bump $VERSION_TYPE, publish to npm, and create a GitHub release? [y/N] " confirm
+if [[ "$SKIP_NPM" == true ]]; then
+  read -r -p "Bump $VERSION_TYPE and create a GitHub release (skip npm)? [y/N] " confirm
+else
+  read -r -p "Bump $VERSION_TYPE, publish to npm, and create a GitHub release? [y/N] " confirm
+fi
 if [[ "$confirm" != "y" && "$confirm" != "Y" ]]; then
   echo "Aborted."
   exit 0
@@ -81,8 +95,12 @@ if [[ ! -f "$TARBALL" ]]; then
   exit 1
 fi
 
-echo "Publishing to npm..."
-npm publish --access public
+if [[ "$SKIP_NPM" == false ]]; then
+  echo "Publishing to npm..."
+  npm publish --access public
+else
+  echo "Skipping npm publish (--skip-npm)"
+fi
 
 # --- Push & GitHub release ---
 
@@ -108,5 +126,7 @@ rm -f fm-wrap-*.tgz
 
 echo ""
 echo "Release complete:"
-echo "  npm:    fm-wrap@${VERSION}"
+if [[ "$SKIP_NPM" == false ]]; then
+  echo "  npm:    fm-wrap@${VERSION}"
+fi
 echo "  github: ${RELEASE_URL}"

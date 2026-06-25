@@ -13,9 +13,6 @@
       "import": "./dist/server/index.js"
     }
   },
-  "bin": {
-    "fm-wrap": "./dist/cli.js"
-  },
   "files": [
     "dist",
     "README.md",
