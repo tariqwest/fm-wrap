@@ -1,0 +1,44 @@
+{
+  "name": "fm-wrap",
+  "version": "1.0.0",
+  "description": "Wraps Apple's macOS fm CLI as a library and RESTful web service",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/core/index.d.ts",
+      "import": "./dist/core/index.js"
+    },
+    "./server": {
+      "types": "./dist/server/index.d.ts",
+      "import": "./dist/server/index.js"
+    }
+  },
+  "bin": {
+    "fm-wrap": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "start": "bun dist/server/index.js",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": ["apple", "foundation-models", "fm", "pcc", "openai-compatible"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hono": "^4.12.27",
+    "node-pty": "^1.1.0",
+    "uuid": "^14.0.1",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@hono/node-server": "^2.0.6",
+    "@types/bun": "^1.3.14",
+    "@types/node": "^26.0.1",
+    "@types/uuid": "^11.0.0",
+    "typescript": "^6.0.3",
+    "vite": "^8.1.0",
+    "vitest": "^4.1.9"
+  }
+}
