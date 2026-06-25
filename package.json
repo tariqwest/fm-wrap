@@ -1,6 +1,6 @@
 {
   "name": "fm-wrap",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Wraps Apple's macOS fm CLI as a library and RESTful web service",
   "type": "module",
   "exports": {
@@ -30,7 +30,14 @@
     "prepublishOnly": "bun run build && bun run test && bun run typecheck",
     "release": "bash scripts/release.sh"
   },
-  "keywords": ["apple", "foundation-models", "fm", "pcc", "openai-compatible", "macos"],
+  "keywords": [
+    "apple",
+    "foundation-models",
+    "fm",
+    "pcc",
+    "openai-compatible",
+    "macos"
+  ],
   "author": "Tariq West",
   "license": "MIT",
   "repository": {
@@ -47,7 +54,9 @@
   "engines": {
     "bun": ">=1.0.0"
   },
-  "os": ["darwin"],
+  "os": [
+    "darwin"
+  ],
   "dependencies": {
     "hono": "^4.12.27",
     "node-pty": "^1.1.0",
