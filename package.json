@@ -1,6 +1,6 @@
 {
   "name": "fm-wrap",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Wraps Apple's macOS fm CLI as a library and RESTful web service",
   "type": "module",
   "exports": {
